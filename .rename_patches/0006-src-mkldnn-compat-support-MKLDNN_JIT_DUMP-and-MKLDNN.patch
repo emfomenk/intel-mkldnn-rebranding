@@ -1,0 +1,40 @@
+From d161860b3532c4e83ca91b893dcb3d59b5fbbd27 Mon Sep 17 00:00:00 2001
+From: "Fomenko, Evarist M" <evarist.m.fomenko@intel.com>
+Date: Fri, 2 Aug 2019 22:14:51 +0000
+Subject: [PATCH 6/9] src: mkldnn compat: support MKLDNN_JIT_DUMP and
+ MKLDNN_VERBOSE env.vars
+
+---
+ src/common/utils.cpp   | 3 ++-
+ src/common/verbose.cpp | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/common/utils.cpp b/src/common/utils.cpp
+index d6f4da380..06860e0ff 100644
+--- a/src/common/utils.cpp
++++ b/src/common/utils.cpp
+@@ -115,7 +115,8 @@ static int jit_dump_flag = 0;
+ static bool jit_dump_flag_initialized = false;
+ bool jit_dump_enabled() {
+     if (!jit_dump_flag_initialized) {
+-        jit_dump_flag = getenv_int("DNNL_JIT_DUMP");
++        jit_dump_flag = getenv_int("MKLDNN_JIT_DUMP");
++        jit_dump_flag = getenv_int("DNNL_JIT_DUMP", jit_dump_flag);
+         jit_dump_flag_initialized = true;
+     }
+     return jit_dump_flag != 0;
+diff --git a/src/common/verbose.cpp b/src/common/verbose.cpp
+index e91e2a4a3..9e4da9351 100644
+--- a/src/common/verbose.cpp
++++ b/src/common/verbose.cpp
+@@ -69,6 +69,7 @@ const verbose_t *dnnl_verbose() {
+     if (!initialized) {
+         const int len = 2;
+         char val[len] = {0};
++        if (getenv("MKLDNN_VERBOSE", val, len) == 1) verbose.level = atoi(val);
+         if (getenv("DNNL_VERBOSE", val, len) == 1) verbose.level = atoi(val);
+         initialized = true;
+     }
+-- 
+2.22.0
+

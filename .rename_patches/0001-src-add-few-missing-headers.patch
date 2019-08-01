@@ -1,0 +1,52 @@
+From a826e8ef2683639583f68c7fffd9a5ce8a089128 Mon Sep 17 00:00:00 2001
+From: "Fomenko, Evarist M" <evarist.m.fomenko@intel.com>
+Date: Fri, 2 Aug 2019 19:51:16 +0000
+Subject: [PATCH 1/9] src: add few missing headers
+
+---
+ src/common/bfloat16.hpp    | 3 ++-
+ src/cpu/gemm/gemm_pack.cpp | 6 +++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/src/common/bfloat16.hpp b/src/common/bfloat16.hpp
+index d89bd7501..4441cb87e 100644
+--- a/src/common/bfloat16.hpp
++++ b/src/common/bfloat16.hpp
+@@ -18,11 +18,12 @@
+ #define BFLOAT16_HPP
+ 
+ #include <cmath>
++#include <cstddef>
+ #include <cstdint>
+ #include <cstdlib>
+ #include <limits>
+ 
+-#include "mkldnn_config.h"
++#include "mkldnn.h"
+ 
+ namespace mkldnn {
+ namespace impl {
+diff --git a/src/cpu/gemm/gemm_pack.cpp b/src/cpu/gemm/gemm_pack.cpp
+index c3a65d3af..0cd15b0e2 100644
+--- a/src/cpu/gemm/gemm_pack.cpp
++++ b/src/cpu/gemm/gemm_pack.cpp
+@@ -14,11 +14,15 @@
+ * limitations under the License.
+ *******************************************************************************/
+ 
++#include "mkldnn_thread.hpp"
++#include "mkldnn_types.h"
++
+ #include "gemm_pack.hpp"
++
+ #include "cpu_isa_traits.hpp"
++
+ #include "gemm.hpp"
+ #include "gemm_driver.hpp"
+-#include "mkldnn_thread.hpp"
+ #include "os_blas.hpp"
+ 
+ namespace mkldnn {
+-- 
+2.22.0
+
